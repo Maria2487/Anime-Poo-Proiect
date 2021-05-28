@@ -2,7 +2,7 @@
 //
 #include "The High Ground.h"
 
-int main()
+void main()
 {
     while (true)
     {
@@ -17,7 +17,7 @@ int main()
             break;
         case 'X':
             std::cout << ("Programul s-a incheiat\n");
-            return 0;
+            exit(0);
         default:
             std::cout << (FORMAT1"\t\b\b\033[0;31mOptiune invalida\033[0m");
             Sleep(1500);

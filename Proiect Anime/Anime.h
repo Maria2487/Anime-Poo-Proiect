@@ -35,10 +35,9 @@ public:
     }
 
     //////////////////////////////////////////////////////////////////
-    list<Anime> CitireAnime();
-    void AfisareAnime();
-    void ScriereInFisierAnime();
-    list<Anime> CitireDinFisierAnime();
-
+    static Anime AdaugaAnime();
+    static void AfisareListaAnime(list<Anime> listaAnime);
+    string ConvertToStringAnime();
+    string ConversieSirFisierAnime();
 };
 

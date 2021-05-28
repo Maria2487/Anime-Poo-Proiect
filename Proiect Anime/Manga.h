@@ -35,10 +35,10 @@ public:
     }
 
     //////////////////////////////////////////////////////////////////
-    list<Manga> CitireManga();
-    void AfisareManga();
-    void ScriereInFisierManga();
-    list<Manga> CitireDinFisierManga();
+    static Manga AdaugaManga();
+    static void AfisareListaManga(list<Manga> listaManga);
+    string ConvertToStringManga();
+    string ConversieSirFisierManga();
 
 };
 

@@ -47,16 +47,10 @@
     <ClInclude Include="AdministrareFisiere.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Watcher.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="The High Ground.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Manga.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Admin.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MyAnimeList.h">

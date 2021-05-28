@@ -149,13 +149,11 @@
     <ClCompile Include="Watcher.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Admin.h" />
     <ClInclude Include="AdministrareFisiere.h" />
     <ClInclude Include="Anime.h" />
     <ClInclude Include="Manga.h" />
     <ClInclude Include="MyAnimeList.h" />
     <ClInclude Include="The High Ground.h" />
-    <ClInclude Include="Watcher.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
