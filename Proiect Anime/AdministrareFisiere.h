@@ -7,14 +7,23 @@ class AdministrareFisiere
 private:
 	static string numeFisierWatcher;
 	static string numeFisierReader;
-	static string numeFisierAdmin;
+	static string numeFisierAdminAnime;
+	static string numeFisierAdminManga;
 public:
 	static void AdaugaWatcherFisier(Anime a);
 	static void AdaugaReaderFisier(Manga m);
-	static void AdaugaAdminFisier();
+	static void AdaugaAdminAnimeFisier(Anime a);
+	static void AdaugaAdminMangaFisier(Manga m);
 
 	static list<Anime> CitesteFisierWatcherAnime();
 	static list<Manga> CitesteFisierReaderManga();
-	static void CitesteFisierAdmin();
+	static list<Anime> CitesteFisierAdminAnime();
+	static list<Manga> CitesteFisierAdminManga();
+
+
+	static void RescriereFisierAnime(list<Anime> listaAnime);
+	static void RescriereFisierManga(list<Manga> listaManga);
+	static void RescriereFisierAdminAnime(list<Anime> listaAnime);
+	static void RescriereFisierAdminManga(list<Manga> listaManga);
 };
 

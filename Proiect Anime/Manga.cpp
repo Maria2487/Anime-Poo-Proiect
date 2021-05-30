@@ -1,5 +1,4 @@
 #include "Manga.h"
-#include "The High Ground.h"
 Manga::Manga()
 {
     VolumeManga = 0;
@@ -58,6 +57,68 @@ Manga Manga::AdaugaManga()
     return MangaNou;
 }
 
+Manga Manga::ActualizareManga()
+{
+    list<Manga> listaManga = AdministrareFisiere::CitesteFisierReaderManga();
+    AfisareListaManga(listaManga);
+    cout << "Introduceti numele mangaului pe care doriti sa o modificati: ";
+    string nume;
+    cin >> nume;
+
+    for (list<Manga>::iterator it = listaManga.begin(); it != listaManga.end(); it++)
+    {
+        if (nume == it->getNume())
+        {
+            cout << "Meniu modificare";
+            cout << "1-Modificati numele";
+            cout << "2-Modificati numarul de volume";
+            cout << "3-Modifiati numarul de capitole";
+            cout << "4-Modificati recenzia";
+            bool select = false;
+            string numeNou;
+            int volNou;
+            int capNou;
+            double nota;
+            while (select == false)
+            {
+                switch (toupper(_getch()))
+                {
+                case '1':
+                    cout << "Introduceti noul nume: ";
+                    cin >> numeNou;
+                    it->setNume(numeNou);
+                    select = true;
+                    break;
+                case '2':
+                    cout << "Introduceti noul numar de volume: ";
+                    cin >> volNou;
+                    it->setVolumeManga(volNou);
+                    select = true;
+                    break;
+                case '3': 
+                    cout << "Introduceti noul numar de capitole: ";
+                    cin >> capNou;
+                    it->setCapitoleManga(capNou);
+                    select = true;
+                    break;
+                case '4':
+                    cout << "Introduceti noua recenzie: ";
+                    cin >> nota;
+                    it->setNota(nota);
+                    select = true;
+                    break;
+                default:
+                    cout << "Optiunea nu exista";
+                    break;
+                }
+            }
+            AdministrareFisiere::RescriereFisierManga(listaManga);
+            return;
+        }
+
+    }
+}
+
 void Manga::AfisareListaManga(list<Manga> listaManga)
 {
     if (listaManga.empty())
@@ -84,7 +145,6 @@ string Manga::ConvertToStringManga()
         << setw(6) << left << "Nume:" << setw(20) << left << VolumeManga
         << setw(9) << left << "Prenume:" << setw(20) << left << CapitoleManga
         << setw(11) << left << "Abonament:" << setw(20) << left << Nota;
-    //return "ID: " + to_string(cod) + " \t Nume: " + nume + " \t Prenume: " + prenume + " \t Abonament: " + tipAbonament;
     string s = table.str();
     return s;
 }

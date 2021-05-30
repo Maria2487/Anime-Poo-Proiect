@@ -58,6 +58,68 @@ Anime Anime::AdaugaAnime()
     return AnimeNou;
 }
 
+Anime Anime::ActualizareAnime()
+{
+    list<Anime> listaAnime = AdministrareFisiere::CitesteFisierWatcherAnime();
+    AfisareListaAnime(listaAnime);
+    cout << "Introduceti numele mangaului pe care doriti sa o modificati: ";
+    string nume;
+    cin >> nume;
+
+    for (list<Anime>::iterator it = listaAnime.begin(); it != listaAnime.end(); it++)
+    {
+        if (nume == it->getNume())
+        {
+            cout << "Meniu modificare";
+            cout << "1-Modificati numele";
+            cout << "2-Modificati numarul de volume";
+            cout << "3-Modifiati numarul de capitole";
+            cout << "4-Modificati recenzia";
+            bool select = false;
+            string numeNou;
+            int sezNou;
+            int epNou;
+            double nota;
+            while (select == false)
+            {
+                switch (toupper(_getch()))
+                {
+                case '1':
+                    cout << "Introduceti noul nume: ";
+                    cin >> numeNou;
+                    it->setNume(numeNou);
+                    select = true;
+                    break;
+                case '2':
+                    cout << "Introduceti noul numar de volume: ";
+                    cin >> sezNou;
+                    it->setSezoaneAnime(sezNou);
+                    select = true;
+                    break;
+                case '3':
+                    cout << "Introduceti noul numar de capitole: ";
+                    cin >> epNou;
+                    it->setEpisoadeAnime(epNou);
+                    select = true;
+                    break;
+                case '4':
+                    cout << "Introduceti noua recenzie: ";
+                    cin >> nota;
+                    it->setNota(nota);
+                    select = true;
+                    break;
+                default:
+                    cout << "Optiunea nu exista";
+                    break;
+                }
+            }
+            AdministrareFisiere::RescriereFisierAnime(listaAnime);
+            return;
+        }
+
+    }
+}
+
 void Anime::AfisareListaAnime(list<Anime> listaAnime)
 {
     if (listaAnime.empty())

@@ -14,8 +14,6 @@
 using namespace std;
 
 
-
-
 #define FORMAT1 "\t\t\t\t\t\t"
 #define FORMAT2 "\t\t\t\t"
 ////////////////////////////////////////////MENIURI//////////////

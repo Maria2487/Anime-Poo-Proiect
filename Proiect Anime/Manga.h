@@ -1,6 +1,8 @@
 #pragma once
 #include "The High Ground.h"
 #include "MyAnimeList.h"
+#include "AdministrareFisiere.h"
+
 class Manga : public MyAnimeList
 {
 
@@ -36,6 +38,7 @@ public:
 
     //////////////////////////////////////////////////////////////////
     static Manga AdaugaManga();
+    static Manga ActualizareManga();
     static void AfisareListaManga(list<Manga> listaManga);
     string ConvertToStringManga();
     string ConversieSirFisierManga();
