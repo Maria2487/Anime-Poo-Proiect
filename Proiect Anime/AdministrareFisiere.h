@@ -1,7 +1,11 @@
+#ifndef AdministrareFisiere_H
+#define AdministrareFisiere_H
+
 #pragma once
 #include "The High Ground.h"
 #include "Anime.h"
 #include "Manga.h"
+
 class AdministrareFisiere
 {
 private:
@@ -27,3 +31,4 @@ public:
 	static void RescriereFisierAdminManga(list<Manga> listaManga);
 };
 
+#endif

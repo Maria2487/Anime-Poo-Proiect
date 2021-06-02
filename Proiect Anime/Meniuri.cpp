@@ -3,12 +3,18 @@
 #include "Manga.h"
 #include "AdministrareFisiere.h"
 
+void go()
+{
+    cout << "\n\nApasa orice tasta pentru a continua...";
+}
+
 void Menu()
 {
     system("cls");
-    std::cout << (FORMAT1"|------Meniu Principal-----|\n"
+    std::cout <<
+       (FORMAT1"|------Meniu Principal-----|\n"
         FORMAT1"|1-Watcher/Reader?         |\n"
-        FORMAT1"|2-ADMIN?                  |\n"
+        FORMAT1"|2-Admin?                  |\n"
         FORMAT1"|X-Exit                    |\n"
         FORMAT1"|--------------------------|\n");
 }
@@ -16,9 +22,10 @@ void Menu()
 void MenuWatcherReader()
 {
     system("cls");
-    cout << (FORMAT1"|---Meniu Watcher/Reader---|\n"
-        FORMAT1"|1-Watcher?               |\n"
-        FORMAT1"|2-Reader?             |\n"
+    cout <<
+       (FORMAT1"|---Meniu Watcher/Reader---|\n"
+        FORMAT1"|1-Watcher?                |\n"
+        FORMAT1"|2-Reader?                 |\n"
         FORMAT1"|R-Meniu principal         |\n"
         FORMAT1"|X-Exit                    |\n"
         FORMAT1"|--------------------------|\n");
@@ -27,39 +34,72 @@ void MenuWatcherReader()
 void MenuWatcher()
 {
     system("cls");
-    cout << (FORMAT1"|---Meniu Watcher/Reader---|\n"
-        FORMAT1"|1-Afisare lista de animeuri                |\n"
-        FORMAT1"|2-Actualizare lista de animeuri              |\n"
-        //FORMAT1"3-Dati o nota unui anime|\n"
-        FORMAT1"|E-Meniu secundar         |\n"
-        FORMAT1"|R-Meniu principal         |\n"
-        FORMAT1"|X-Exit                    |\n"
-        FORMAT1"|--------------------------|\n");
+    cout << 
+       (FORMAT1"|----------Meniu Watcher/Reader-----------|\n"
+        FORMAT1"|1-Afisare lista de animeuri              |\n"
+        FORMAT1"|2-Afisare lista personala de animeuri    |\n"
+        FORMAT1"|3-Adaugare in lista personala de animeuri|\n"
+        FORMAT1"|4-Dati o nota unui anime                 |\n"
+        FORMAT1"|5-Actualizati lista personala de animeuri|\n"
+        FORMAT1"|E-Meniu secundar                         |\n"
+        FORMAT1"|R-Meniu principal                        |\n"
+        FORMAT1"|X-Exit                                   |\n"
+        FORMAT1"|-----------------------------------------|\n");
 }
 
 void MenuReader()
 {
     system("cls");
-    cout << (FORMAT1"|---Meniu Watcher/Reader---|\n"
-        FORMAT1"|1-Afisare lista de mangauri               |\n"
-        FORMAT1"|2-Actualizare lista de mangauri            |\n"
-        //FORMAT1"3-Dati o nota unei manga|\n"
-        FORMAT1"|E-Meniu secundar         |\n"
-        FORMAT1"|R-Meniu principal         |\n"
-        FORMAT1"|X-Exit                    |\n"
-        FORMAT1"|--------------------------|\n");
+    cout <<
+       (FORMAT1"|-----------Meniu Watcher/Reader----------|\n"
+        FORMAT1"|1-Afisare lista de mangauri              |\n"
+        FORMAT1"|2-Afisare lista personala de mangauri    |\n"
+        FORMAT1"|3-Adaugare lista personala de mangauri|\n"
+        FORMAT1"|4-Dati o nota unui manga                 |\n"
+        FORMAT1"|5-Actualizati lista personala de mangauri|\n"
+        FORMAT1"|E-Meniu secundar                         |\n"
+        FORMAT1"|R-Meniu principal                        |\n"
+        FORMAT1"|X-Exit                                   |\n"
+        FORMAT1"|-----------------------------------------|\n");
 }
 
 void MenuAdmin()
 {
     system("cls");
-    std::cout << (FORMAT1"|------Meniu Admin------|\n"
-        FORMAT1"|1-Afisare animeuri existente in lista      |\n"
-        FORMAT1"|2-Adaugare anime in lista    |\n"
-        //FORMAT1"|3-Actualizare lista animeuri|\n"
-        FORMAT1"|R-Meniu principal         |\n"
-        FORMAT1"|X-Exit                    |\n"
-        FORMAT1"|--------------------------|\n");
+    std::cout <<
+       (FORMAT1"|-------------Meniu Admin-------------|\n"
+        FORMAT1"|1-Afisare animeuri existente in lista|\n"
+        FORMAT1"|2-Adaugare anime in lista            |\n"
+        FORMAT1"|3-Actualizare lista animeuri         |\n"
+        FORMAT1"|4-Afisare mangauri existente in lista|\n"
+        FORMAT1"|5-Adaugare manga in lista            |\n"
+        FORMAT1"|6-Actualizare lista manga            |\n"
+        FORMAT1"|R-Meniu principal                    |\n"
+        FORMAT1"|X-Exit                               |\n"
+        FORMAT1"|-------------------------------------|\n");
+}
+
+void MeniuPrincipal()
+{
+    while (true)
+    {
+        Menu();
+        switch (toupper(_getch()))
+        {
+        case '1':
+            MenuWatcherReaderInterfata();
+            break;
+        case '2':
+            MenuAdminInterfata();
+            break;
+        case 'X':
+            std::cout << ("Programul s-a incheiat\n");
+            exit(0);
+        default:
+            std::cout << (FORMAT1"\t\b\b\033[0;31mOptiune invalida\033[0m");
+            Sleep(1500);
+        }
+    }
 }
 
 void MenuWatcherReaderInterfata()
@@ -89,11 +129,17 @@ void MenuWatcherReaderInterfata()
     }
 }
 
+
+
 void MenuWatcherInterfata()
 {
     char option;
     list<Anime> listaAnimeuri = AdministrareFisiere::CitesteFisierWatcherAnime();
+    list<Anime> listaAdmin = AdministrareFisiere::CitesteFisierAdminAnime();
     Anime nou;
+    string nume;
+    bool valid;
+    int nota;
     while (1)
     {
         system("cls");
@@ -101,19 +147,59 @@ void MenuWatcherInterfata()
         switch (toupper(option = _getch()))
         {
         case '1':
-            Anime::AfisareListaAnime(listaAnimeuri);
+            Anime::AfisareListaAnime(listaAdmin);
             _getch();
+            go();
             break;
         case '2':
+            Anime::AfisareListaAnime(listaAnimeuri);
+            _getch();
+            go();
+            break;
+        case '3':
+            Anime::AfisareListaAnime(listaAdmin);
             nou = Anime::AdaugaAnime();
             listaAnimeuri.push_back(nou);
             AdministrareFisiere::AdaugaWatcherFisier(nou);
+            listaAnimeuri = AdministrareFisiere::CitesteFisierWatcherAnime();
             _getch();
+            go();
             break;
-        case '3':
+        case '4':
+            Anime::AfisareListaAnime(listaAdmin);
+            valid = false;
+            cout << "Numele animeului pe care doriti sa il notati: ";
+            cin >> nume;
+            for (list<Anime>::iterator it = listaAdmin.begin(); it != listaAdmin.end(); it++)
+            {
+                if (nume == it->getNume())
+                {
+                    cout << "Introduceti nota: ";
+                    cin >> nota;
+                    it->setNota(nota);
+                    valid = true;
+                }
+            }
+            if (valid == false)
+                cout << "Animeul introdus nu exista in lista\n";
+            else
+            {
+                AdministrareFisiere::RescriereFisierAdminAnime(listaAdmin);
+            }
+            
+           listaAdmin = AdministrareFisiere::CitesteFisierAdminAnime();
+           go();
+            break;
+        case '5':
+            Anime::ActualizareAnimeWatcher();
+            listaAnimeuri = AdministrareFisiere::CitesteFisierWatcherAnime();
+            go();
+            break;
+        case 'E':
             return;
+            break;
         case 'R':
-            return;
+            MeniuPrincipal();
         case 'X':
             exit(0);
         default:
@@ -123,12 +209,15 @@ void MenuWatcherInterfata()
     }
 }
 
-
 void MenuReaderInterfata()
 {
     char option;
     list<Manga> listaMangauri = AdministrareFisiere::CitesteFisierReaderManga();
+    list<Manga> listaAdmin = AdministrareFisiere::CitesteFisierAdminManga();
     Manga nou;
+    string nume;
+    bool valid;
+    int nota;
     while (1)
     {
         system("cls");
@@ -136,20 +225,58 @@ void MenuReaderInterfata()
         switch (toupper(option = _getch()))
         {
         case '1':
-            Manga::AfisareListaManga(listaMangauri);
+            Manga::AfisareListaManga(listaAdmin);
             _getch();
+            go();
             break;
         case '2':
-            nou = Manga::AdaugaManga();
-
-            listaMangauri.push_back(nou);
-            AdministrareFisiere::AdaugaReaderFisier(nou);
+            Manga::AfisareListaManga(listaMangauri);
+            go();
             _getch();
             break;
         case '3':
+            Manga::AfisareListaManga(listaAdmin);
+            nou = Manga::AdaugaManga();
+            listaMangauri.push_back(nou);
+            AdministrareFisiere::AdaugaReaderFisier(nou);
+            listaMangauri = AdministrareFisiere::CitesteFisierReaderManga();
+            go();
+            _getch();
+            break;
+        case '4':
+            Manga::AfisareListaManga(listaAdmin);
+            valid = false;
+            cout << "Numele mangaului pe care doriti sa il notati: ";
+            cin >> nume;
+            for (list<Manga>::iterator it = listaMangauri.begin(); it != listaMangauri.end(); it++)
+            {
+                if (nume == it->getNume())
+                {
+                    cout << "Introduceti nota: ";
+                    cin >> nota;
+                    it->setNota(nota);
+                    valid = true;
+                }
+            }
+            if (valid == false)
+                cout << "Mangaul introdus nu exista in lista\n";
+            else
+            {
+                AdministrareFisiere::RescriereFisierAdminManga(listaAdmin);
+            }
+            listaAdmin = AdministrareFisiere::CitesteFisierAdminManga();
+            go();
+            break;
+        case '5':
+            Manga::ActualizareMangaReader();
+            listaMangauri = AdministrareFisiere::CitesteFisierReaderManga();
+            go();
+            break;
+        case 'E':
             return;
+            break;
         case 'R':
-            return;
+            MeniuPrincipal();
         case 'X':
             exit(0);
         default:
@@ -159,9 +286,15 @@ void MenuReaderInterfata()
     }
 }
 
+
+
 void MenuAdminInterfata()
 {
     char option;
+    list<Anime> listaAnimeuri = AdministrareFisiere::CitesteFisierAdminAnime();
+    list<Manga> listaMangauri = AdministrareFisiere::CitesteFisierAdminManga();
+    Anime nou;
+    Manga nou2;
     while (1)
     {
         system("cls");
@@ -169,12 +302,45 @@ void MenuAdminInterfata()
         switch (toupper(option = _getch()))
         {
         case '1':
+            Anime::AfisareListaAnime(listaAnimeuri);
+            _getch();
+            go();
             break;
 
         case '2':
+            nou = Anime::AdaugaAnimeAdmin();
+            listaAnimeuri.push_back(nou);
+            AdministrareFisiere::AdaugaAdminAnimeFisier(nou);
+            listaAnimeuri = AdministrareFisiere::CitesteFisierAdminAnime();
+            _getch();
+            go();
             break;
 
         case '3':
+            Anime::ActualizareAnimeAdmin();
+            listaAnimeuri = AdministrareFisiere::CitesteFisierAdminAnime();
+            go();
+            break;
+
+        case '4':
+            Manga::AfisareListaManga(listaMangauri);
+            _getch();
+            go();
+            break;
+
+        case '5':
+            nou2 = Manga::AdaugaMangaAdmin();
+            listaMangauri.push_back(nou2);
+            AdministrareFisiere::AdaugaAdminMangaFisier(nou2);
+            listaMangauri = AdministrareFisiere::CitesteFisierAdminManga();
+            _getch();
+            go();
+            break;
+
+        case '6':
+            Manga::ActualizareMangaAdmin();
+            listaMangauri = AdministrareFisiere::CitesteFisierAdminManga();
+            go();
             break;
 
         case 'R':

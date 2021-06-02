@@ -1,3 +1,5 @@
+#ifndef The High Ground_H
+#define The High Ground_H
 #pragma once
 #include <iostream>
 #include <conio.h>
@@ -17,7 +19,9 @@ using namespace std;
 #define FORMAT1 "\t\t\t\t\t\t"
 #define FORMAT2 "\t\t\t\t"
 ////////////////////////////////////////////MENIURI//////////////
+void go();
 void Menu();
+void MeniuPrincipal();
 void MenuWatcherReader();
 void MenuWatcher();
 void MenuReader();
@@ -30,7 +34,7 @@ void MenuAdminInterfata();
 //////////////////////////////////
 bool ValidareString(const string& str);
 
-
+#endif
 
 
 

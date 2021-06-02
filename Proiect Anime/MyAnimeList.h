@@ -1,3 +1,5 @@
+#ifndef MyAnimeList_H
+#define MyAnimeList_H
 #pragma once
 #include "The High Ground.h"
 class MyAnimeList
@@ -28,3 +30,4 @@ public:
     }
 };
 
+#endif

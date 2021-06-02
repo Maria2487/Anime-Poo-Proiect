@@ -1,7 +1,9 @@
+#ifndef Anime_H
+#define Anime_H
+
 #pragma once
-#include "The High Ground.h"
 #include "MyAnimeList.h"
-#include "AdministrareFisiere.h"
+
 
 class Anime : public MyAnimeList
 {
@@ -37,9 +39,12 @@ public:
 
     //////////////////////////////////////////////////////////////////
     static Anime AdaugaAnime();
-    static Anime ActualizareAnime();
+    static Anime AdaugaAnimeAdmin();
+    static void ActualizareAnimeWatcher();
+    static void ActualizareAnimeAdmin();
     static void AfisareListaAnime(list<Anime> listaAnime);
     string ConvertToStringAnime();
     string ConversieSirFisierAnime();
 };
 
+#endif

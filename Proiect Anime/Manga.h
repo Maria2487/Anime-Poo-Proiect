@@ -1,7 +1,8 @@
+#ifndef Manga_H
+#define Manga_H
 #pragma once
-#include "The High Ground.h"
 #include "MyAnimeList.h"
-#include "AdministrareFisiere.h"
+
 
 class Manga : public MyAnimeList
 {
@@ -38,10 +39,13 @@ public:
 
     //////////////////////////////////////////////////////////////////
     static Manga AdaugaManga();
-    static Manga ActualizareManga();
+    static Manga AdaugaMangaAdmin();
+    static void ActualizareMangaAdmin();
+    static void ActualizareMangaReader();
     static void AfisareListaManga(list<Manga> listaManga);
     string ConvertToStringManga();
     string ConversieSirFisierManga();
 
 };
 
+#endif

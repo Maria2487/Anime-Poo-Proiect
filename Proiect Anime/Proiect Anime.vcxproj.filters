@@ -27,16 +27,7 @@
     <ClCompile Include="Meniuri.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Watcher.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Manga.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Admin.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MyAnimeList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -56,5 +47,19 @@
     <ClInclude Include="MyAnimeList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Proiect Anime.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Watcher.txt" />
+    <Text Include="Reader.txt" />
+    <Text Include="AdminAnime.txt" />
+    <Text Include="AdminManga.txt" />
   </ItemGroup>
 </Project>

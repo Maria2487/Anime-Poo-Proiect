@@ -139,21 +139,28 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Admin.cpp" />
     <ClCompile Include="AdministrareFisiere.cpp" />
     <ClCompile Include="Anime.cpp" />
     <ClCompile Include="Manga.cpp" />
-    <ClCompile Include="MyAnimeList.cpp" />
     <ClCompile Include="Proiect Anime.cpp" />
     <ClCompile Include="Meniuri.cpp" />
-    <ClCompile Include="Watcher.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AdministrareFisiere.h" />
     <ClInclude Include="Anime.h" />
     <ClInclude Include="Manga.h" />
     <ClInclude Include="MyAnimeList.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="The High Ground.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Proiect Anime.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="AdminAnime.txt" />
+    <Text Include="Reader.txt" />
+    <Text Include="AdminManga.txt" />
+    <Text Include="Watcher.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
