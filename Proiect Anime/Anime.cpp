@@ -224,6 +224,7 @@ void Anime::ActualizareAnimeWatcher()
 void Anime::ActualizareAnimeAdmin()
 {
     list<Anime> listaAnime = AdministrareFisiere::CitesteFisierAdminAnime();
+    list<Anime> listaWatcher = AdministrareFisiere::CitesteFisierWatcherAnime();
     AfisareListaAnime(listaAnime);
     cout << "Introduceti numele animeului pe care doriti sa il modificati: ";
     string nume;
@@ -251,8 +252,17 @@ void Anime::ActualizareAnimeAdmin()
                 case '1':
                     cout << "Introduceti noul nume: ";
                     cin >> numeNou;
-                    if(NumeExista(nume,listaAnime)==true)
+                    if (NumeExista(numeNou, listaAnime) == true)
+                    {
                         it->setNume(numeNou);
+                        for (list<Anime>::iterator i = listaWatcher.begin(); i != listaWatcher.end(); i++)
+                            if (i->getNume() == nume)
+                            {
+                                i->setNume(numeNou);
+                                AdministrareFisiere::RescriereFisierAnime(listaWatcher);
+                            }
+                    }
+                            
                     select = true;
                     go();
                     break;

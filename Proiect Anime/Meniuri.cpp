@@ -130,7 +130,6 @@ void MenuWatcherReaderInterfata()
 }
 
 
-
 void MenuWatcherInterfata()
 {
     char option;

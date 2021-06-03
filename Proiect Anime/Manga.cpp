@@ -230,6 +230,7 @@ void Manga::ActualizareMangaReader()
 void Manga::ActualizareMangaAdmin()
 {
     list<Manga> listaManga = AdministrareFisiere::CitesteFisierAdminManga();
+    list<Manga> listaReader = AdministrareFisiere::CitesteFisierReaderManga();
     AfisareListaManga(listaManga);
     cout << "Introduceti numele mangaului pe care doriti sa o modificati: ";
     string nume;
@@ -257,8 +258,16 @@ void Manga::ActualizareMangaAdmin()
                 case '1':
                     cout << "Introduceti noul nume: ";
                     cin >> numeNou;
-                    if(NumeExista(nume,listaManga)==true)
+                    if (NumeExista(numeNou, listaManga) == true)
+                    {
                         it->setNume(numeNou);
+                        for (list<Manga>::iterator i = listaReader.begin(); i != listaReader.end(); i++)
+                            if (i->getNume() == nume)
+                            {
+                                i->setNume(numeNou);
+                                AdministrareFisiere::RescriereFisierManga(listaReader);
+                            }
+                    }
                     select = true;
                     break;
                 case '2':
