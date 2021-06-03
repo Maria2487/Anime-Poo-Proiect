@@ -22,6 +22,19 @@ Manga::~Manga()
     //dtor
 }
 //////////////////////////////////////////////////////////////////////////////////
+bool NumeExista(string nume, list<Manga> listaAdmin)
+{
+    for (list<Manga>::iterator it = listaAdmin.begin(); it != listaAdmin.end(); it++)
+    {
+        if (nume == it->getNume())
+        {
+            cout << "\nNumele exista deja\n\n";
+            return false;
+        }
+    }
+    
+    return true;
+}
 
 bool VerificaNume(string nume, list<Manga> listaAdmin)
 {
@@ -36,28 +49,30 @@ bool VerificaNume(string nume, list<Manga> listaAdmin)
     return false;;
 }
 
-bool VerificaSezoane(int input, list<Manga> listaAdmin)
+bool VerificaSezoane(string nume,int input, list<Manga> listaAdmin)
 {
 
     for (list<Manga>::iterator it = listaAdmin.begin(); it != listaAdmin.end(); it++)
     {
-        if (input == it->getVolumeManga())
-        {
-            return true;
-        }
+        if (nume == it->getNume())
+            if (input <= it->getVolumeManga())
+            {
+                return true;
+            }
     }
     cout << "\nNumarul introdus este prea mare\n\n";
     return false;
 }
 
-bool VerificaEpisoade(int input, list<Manga> listaAdmin)
+bool VerificaEpisoade(string nume,int input, list<Manga> listaAdmin)
 {
     for (list<Manga>::iterator it = listaAdmin.begin(); it != listaAdmin.end(); it++)
     {
-        if (input == it->getCapitoleManga())
-        {
-            return true;
-        }
+        if (nume == it->getNume())
+            if (input <= it->getCapitoleManga())
+            {
+                return true;
+            }
     }
     cout << "\nNumarul introdus este prea mare\n\n";
     return false;
@@ -69,23 +84,24 @@ Manga Manga::AdaugaManga()
     int input1, input2;
     double input3;
     list<Manga> listaAdmin = AdministrareFisiere::CitesteFisierAdminManga();
+    list<Manga> listaManga = AdministrareFisiere::CitesteFisierReaderManga();
     do
     {
         cout << "\nIntroduceti numele: ";
         cin >> nume;
-    } while (VerificaNume(nume,listaAdmin)==false);
+    } while (VerificaNume(nume,listaAdmin)==false || NumeExista(nume,listaManga)==false);
 
     do
     {
         cout << "\nIntroduceti numarul de volume: ";
         cin >> input1;
-    } while (input1 <= 0 && VerificaSezoane(input1, listaAdmin) == false);
+    } while (input1 <= 0 || VerificaSezoane(nume,input1, listaAdmin) == false);
 
     do
     {
         cout << "\nIntroduceti numarul de capitole: ";
         cin >> input2;
-    } while (input2 < 0 && VerificaEpisoade(input2,listaAdmin)==false);
+    } while (input2 < 0 || VerificaEpisoade(nume,input2,listaAdmin)==false);
 
     do
     {
@@ -106,12 +122,13 @@ Manga Manga::AdaugaMangaAdmin()
     string nume;
     int input1, input2;
     double input3;
-    do
+    list<Manga> listaAdmin = AdministrareFisiere::CitesteFisierAdminManga();
+    do 
     {
         cout << "\nIntroduceti numele: ";
         cin >> nume;
-    } while (!ValidareString(nume));
-
+    } while (NumeExista(nume,listaAdmin)==false);
+    
     do
     {
         cout << "\nIntroduceti numarul de volume: ";
@@ -136,6 +153,7 @@ Manga Manga::AdaugaMangaAdmin()
 void Manga::ActualizareMangaReader()
 {
     list<Manga> listaManga = AdministrareFisiere::CitesteFisierReaderManga();
+    list<Manga> listaAdmin = AdministrareFisiere::CitesteFisierAdminManga();
     AfisareListaManga(listaManga);
     cout << "Introduceti numele mangaului pe care doriti sa o modificati: ";
     string nume;
@@ -147,11 +165,12 @@ void Manga::ActualizareMangaReader()
         {
 
             cout <<
-                (FORMAT1"|--------Meniu modificare-------|\n"
-                    FORMAT1"|1-Modificati numarul de volume |\n"
+                (
+                    FORMAT1"|--------Meniu modificare--------|\n"
+                    FORMAT1"|1-Modificati numarul de volume  |\n"
                     FORMAT1"|2-Modificati numarul de capitole|\n"
-                    FORMAT1"|3-Modificati recenzia          |\n"
-                    FORMAT1"|-------------------------------|\n");
+                    FORMAT1"|3-Modificati recenzia           |\n"
+                    FORMAT1"|--------------------------------|\n");
             bool select = false;
             string numeNou;
             int volNou;
@@ -165,26 +184,40 @@ void Manga::ActualizareMangaReader()
                 case '1':
                     cout << "Introduceti noul numar de volume: ";
                     cin >> volNou;
-                    it->setVolumeManga(volNou);
+                    if(VerificaSezoane(nume,volNou,listaManga)==true)
+                        it->setVolumeManga(volNou);
+                    else
+                        cout << "\nNu s-a putut realiza modificarea.\n";
                     select = true;
                     AdministrareFisiere::RescriereFisierManga(listaManga);
                     break;
                 case '2': 
                     cout << "Introduceti noul numar de capitole: ";
                     cin >> capNou;
-                    it->setCapitoleManga(capNou);
+                    if(VerificaEpisoade(nume,capNou,listaManga)==true)
+                        it->setCapitoleManga(capNou);
+                    else
+                        cout << "\nNu s-a putut realiza modificarea.\n";
                     select = true;
                     AdministrareFisiere::RescriereFisierManga(listaManga);
                     break;
                 case '3':
                     cout << "Introduceti noua recenzie: ";
                     cin >> nota;
-                    it->setNota(nota);
+                    if (nota >= 0 && nota <= 10)
+                        it->setNota(nota);
+                    else
+                        cout << "Nu s-a putut realiza modificare.";
                     select = true;
-                    AdministrareFisiere::RescriereFisierAdminManga(listaManga);
+                    AdministrareFisiere::RescriereFisierManga(listaManga);
+                    for (list<Manga>::iterator i = listaAdmin.begin(); i != listaAdmin.end(); i++)
+                        if (nume == i->getNume())
+                            i->setNota(nota);
+                    AdministrareFisiere::RescriereFisierAdminManga(listaAdmin);
                     break;
                 default:
-                    cout << "Optiunea nu exista";
+                    std::cout << (FORMAT1"\t\b\b\033[0;31mOptiune invalida\033[0m");
+                    Sleep(1500);
                     break;
                 }
             }
@@ -224,7 +257,8 @@ void Manga::ActualizareMangaAdmin()
                 case '1':
                     cout << "Introduceti noul nume: ";
                     cin >> numeNou;
-                    it->setNume(numeNou);
+                    if(NumeExista(nume,listaManga)==true)
+                        it->setNume(numeNou);
                     select = true;
                     break;
                 case '2':
@@ -241,7 +275,8 @@ void Manga::ActualizareMangaAdmin()
                     break;
 
                 default:
-                    cout << "Optiunea nu exista";
+                    std::cout << (FORMAT1"\t\b\b\033[0;31mOptiune invalida\033[0m");
+                    Sleep(1500);
                     break;
                 }
             }

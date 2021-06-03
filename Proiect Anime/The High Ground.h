@@ -32,7 +32,6 @@ void MenuReaderInterfata();
 void MenuAdminInterfata();
 
 //////////////////////////////////
-bool ValidareString(const string& str);
 
 #endif
 

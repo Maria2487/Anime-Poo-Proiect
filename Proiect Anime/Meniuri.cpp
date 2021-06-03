@@ -148,22 +148,34 @@ void MenuWatcherInterfata()
         {
         case '1':
             Anime::AfisareListaAnime(listaAdmin);
-            _getch();
             go();
+            _getch();
             break;
         case '2':
             Anime::AfisareListaAnime(listaAnimeuri);
-            _getch();
             go();
+            _getch();
             break;
         case '3':
+            cout << "\n\nLista toatala este:\n\n";
             Anime::AfisareListaAnime(listaAdmin);
+            cout << "\n\nLista personala este:\n\n";
+            Anime::AfisareListaAnime(listaAnimeuri);
             nou = Anime::AdaugaAnime();
             listaAnimeuri.push_back(nou);
             AdministrareFisiere::AdaugaWatcherFisier(nou);
             listaAnimeuri = AdministrareFisiere::CitesteFisierWatcherAnime();
-            _getch();
+            for (list<Anime>::iterator it = listaAdmin.begin(); it != listaAdmin.end(); it++)
+            {
+                if (nou.getNume() == it->getNume())
+                {
+                    it->setNota(nou.getNota());
+                }
+            }
+            AdministrareFisiere::RescriereFisierAdminAnime(listaAdmin);
+            listaAdmin = AdministrareFisiere::CitesteFisierAdminAnime();
             go();
+            _getch();
             break;
         case '4':
             Anime::AfisareListaAnime(listaAdmin);
@@ -188,12 +200,15 @@ void MenuWatcherInterfata()
             }
             
            listaAdmin = AdministrareFisiere::CitesteFisierAdminAnime();
+           listaAnimeuri = AdministrareFisiere::CitesteFisierWatcherAnime();
            go();
-            break;
+           _getch();
+           break;
         case '5':
             Anime::ActualizareAnimeWatcher();
             listaAnimeuri = AdministrareFisiere::CitesteFisierWatcherAnime();
             go();
+            _getch();
             break;
         case 'E':
             return;
@@ -235,11 +250,23 @@ void MenuReaderInterfata()
             _getch();
             break;
         case '3':
+            cout << "\n\nLista totala este:\n\n";
             Manga::AfisareListaManga(listaAdmin);
+            cout << "\n\nLista personala este\n\n";
+            Manga::AfisareListaManga(listaMangauri);
             nou = Manga::AdaugaManga();
             listaMangauri.push_back(nou);
             AdministrareFisiere::AdaugaReaderFisier(nou);
             listaMangauri = AdministrareFisiere::CitesteFisierReaderManga();
+            for (list<Manga>::iterator it = listaAdmin.begin(); it != listaAdmin.end(); it++)
+            {
+                if (nou.getNume() == it->getNume())
+                {
+                    it->setNota(nou.getNota());
+                }
+            }
+            AdministrareFisiere::RescriereFisierAdminManga(listaAdmin);
+            listaAdmin = AdministrareFisiere::CitesteFisierAdminManga();
             go();
             _getch();
             break;
@@ -265,12 +292,15 @@ void MenuReaderInterfata()
                 AdministrareFisiere::RescriereFisierAdminManga(listaAdmin);
             }
             listaAdmin = AdministrareFisiere::CitesteFisierAdminManga();
+            listaMangauri = AdministrareFisiere::CitesteFisierReaderManga();
             go();
+            _getch();
             break;
         case '5':
             Manga::ActualizareMangaReader();
             listaMangauri = AdministrareFisiere::CitesteFisierReaderManga();
             go();
+            _getch();
             break;
         case 'E':
             return;
@@ -303,44 +333,50 @@ void MenuAdminInterfata()
         {
         case '1':
             Anime::AfisareListaAnime(listaAnimeuri);
-            _getch();
             go();
+            _getch();
             break;
 
         case '2':
+            cout << "\n\nLista totala este:\n\n";
+            Anime::AfisareListaAnime(listaAnimeuri);
             nou = Anime::AdaugaAnimeAdmin();
             listaAnimeuri.push_back(nou);
             AdministrareFisiere::AdaugaAdminAnimeFisier(nou);
             listaAnimeuri = AdministrareFisiere::CitesteFisierAdminAnime();
-            _getch();
             go();
+            _getch();
             break;
 
         case '3':
             Anime::ActualizareAnimeAdmin();
             listaAnimeuri = AdministrareFisiere::CitesteFisierAdminAnime();
             go();
+            _getch();
             break;
 
         case '4':
             Manga::AfisareListaManga(listaMangauri);
-            _getch();
             go();
+            _getch();
             break;
 
         case '5':
+            cout << "\n\nLista totala este\n\n";
+            Manga::AfisareListaManga(listaMangauri);
             nou2 = Manga::AdaugaMangaAdmin();
             listaMangauri.push_back(nou2);
             AdministrareFisiere::AdaugaAdminMangaFisier(nou2);
             listaMangauri = AdministrareFisiere::CitesteFisierAdminManga();
-            _getch();
             go();
+            _getch();
             break;
 
         case '6':
             Manga::ActualizareMangaAdmin();
             listaMangauri = AdministrareFisiere::CitesteFisierAdminManga();
             go();
+            _getch();
             break;
 
         case 'R':
@@ -354,17 +390,3 @@ void MenuAdminInterfata()
     }
 }
 
-
-bool ValidareString(const string& s)
-{
-    /*for (int i = 0; i < s.length(); i++)
-    {
-        if (!isalpha(s[i]))
-            return false;
-        if (isspace(s[i]))
-            return false;
-        if (isdigit(s[i]))
-            return false;
-    }*/
-    return true;
-}

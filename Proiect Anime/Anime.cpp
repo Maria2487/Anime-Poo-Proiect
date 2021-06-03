@@ -21,6 +21,19 @@ Anime::~Anime()
     //dtor
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////
+bool NumeExista(string nume, list<Anime> listaAdmin)
+{
+    for (list<Anime>::iterator it = listaAdmin.begin(); it != listaAdmin.end(); it++)
+    {
+        if (nume == it->getNume())
+        {
+            cout << "\nNumele exista deja\n\n";
+            return false;
+        }
+    }
+    return true;
+}
+
 bool VerificaNume(string nume, list<Anime> listaAdmin)
 {
     for (list<Anime>::iterator it = listaAdmin.begin(); it != listaAdmin.end(); it++)
@@ -34,28 +47,30 @@ bool VerificaNume(string nume, list<Anime> listaAdmin)
     return false;;
 }
 
-bool VerificaSezoane(int input, list<Anime> listaAdmin)
+bool VerificaSezoane(string nume, int input, list<Anime> listaAdmin)
 {
 
     for (list<Anime>::iterator it = listaAdmin.begin(); it != listaAdmin.end(); it++)
     {
-        if (input == it->getSezoaneAnime())
-        {
-            return true;
-        }
+        if (nume == it->getNume())
+            if (input <= it->getSezoaneAnime())
+            {
+                return true;
+            }
     }
     cout << "\nNumarul introdus este prea mare\n\n";
     return false;
 }
 
-bool VerificaEpisoade(int input, list<Anime> listaAdmin)
+bool VerificaEpisoade(string nume, int input, list<Anime> listaAdmin)
 {
     for (list<Anime>::iterator it = listaAdmin.begin(); it != listaAdmin.end(); it++)
     {
-        if (input == it->getEpisoadeAnime())
-        {
-            return true;
-        }
+        if (nume == it->getNume())
+            if (input <= it->getEpisoadeAnime())
+            {
+                return true;
+            }
     }
     cout << "\nNumarul introdus este prea mare\n\n";
     return false;
@@ -67,24 +82,25 @@ Anime Anime::AdaugaAnime()
     int input1, input2;
     double input3;
     list<Anime> listaAdmin = AdministrareFisiere::CitesteFisierAdminAnime();
+    list<Anime> listaWatcher = AdministrareFisiere::CitesteFisierWatcherAnime();
     do
     {
         cout << "\nIntroduceti numele animeului dorit din lista totala: ";
         cin >> nume;
        
-    } while (VerificaNume(nume,listaAdmin)==false);
+    } while (VerificaNume(nume,listaAdmin)==false || NumeExista(nume,listaWatcher)==false);
 
     do
     {
         cout << "\nIntroduceti numarul de sezoane: ";
         cin >> input1;
-    } while (input1 <= 0 && VerificaSezoane(input1,listaAdmin)==false);
+    } while (input1 <= 0 && VerificaSezoane(nume,input1,listaAdmin)==false);
 
     do
     {
         cout << "\nIntroduceti numarul de episoade: ";
         cin >> input2;
-    } while (input2 < 0 && VerificaEpisoade(input2,listaAdmin)==false);
+    } while (input2 < 0 || VerificaEpisoade(nume,input2,listaAdmin)==false);
 
     do
     {
@@ -105,12 +121,13 @@ Anime Anime::AdaugaAnimeAdmin()
     string nume;
     int input1, input2;
     double input3;
+    list<Anime> listaAdmin = AdministrareFisiere::CitesteFisierAdminAnime();
     do
     {
         cout << "\nIntroduceti numele: ";
         cin >> nume;
-    } while (!ValidareString(nume));
-
+    } while (NumeExista(nume,listaAdmin)==false);
+    
     do 
     {
         cout << "\nIntroduceti numarul de sezoane: ";
@@ -133,8 +150,9 @@ Anime Anime::AdaugaAnimeAdmin()
 void Anime::ActualizareAnimeWatcher()
 {
     list<Anime> listaAnime = AdministrareFisiere::CitesteFisierWatcherAnime();
+    list<Anime> listaAdmin = AdministrareFisiere::CitesteFisierAdminAnime();
     AfisareListaAnime(listaAnime);
-    cout << "\nIntroduceti numele mangaului pe care doriti sa o modificati: ";
+    cout << "\nIntroduceti numele animeului pe care doriti sa il modificati: ";
     string nume;
     cin >> nume;
 
@@ -143,11 +161,11 @@ void Anime::ActualizareAnimeWatcher()
         if (nume == it->getNume())
         {
             cout <<
-                (FORMAT1"|--------Meniu modificare-------|\n"
-                 FORMAT1"|1-Modificati numarul de sezoane|\n"
+                (FORMAT1"|--------Meniu modificare--------|\n"
+                 FORMAT1"|1-Modificati numarul de sezoane |\n"
                  FORMAT1"|2-Modificati numarul de episoade|\n"
-                 FORMAT1"|3-Modificati recenzia          |\n"
-                 FORMAT1"|-------------------------------|\n");
+                 FORMAT1"|3-Modificati recenzia           |\n"
+                 FORMAT1"|--------------------------------|\n");
             bool select = false;
             string numeNou;
             int sezNou;
@@ -160,26 +178,40 @@ void Anime::ActualizareAnimeWatcher()
                 case '1':
                     cout << "Introduceti noul numar de sezoane: ";
                     cin >> sezNou;
-                    it->setSezoaneAnime(sezNou);
+                    if (VerificaSezoane(nume,sezNou,listaAnime) == true)
+                        it->setSezoaneAnime(sezNou);
+                    else
+                        cout << "\nNu s-a putut realiza modificarea.\n";
                     select = true;
                     AdministrareFisiere::RescriereFisierAnime(listaAnime);
                     break;
                 case '2':
                     cout << "Introduceti noul numar de episoade: ";
                     cin >> epNou;
-                    it->setEpisoadeAnime(epNou);
+                    if(VerificaEpisoade(nume,epNou,listaAnime)==true)
+                        it->setEpisoadeAnime(epNou);
+                    else
+                        cout << "Nu s-a putut realiza modificarea.";
                     select = true;
                     AdministrareFisiere::RescriereFisierAnime(listaAnime);
                     break;
                 case '3':
                     cout << "Introduceti noua recenzie: ";
                     cin >> nota;
-                    it->setNota(nota);
+                    if(nota >= 0 && nota <= 10)
+                        it->setNota(nota);
+                    else
+                        cout << "Nu s-a putut realiza modificare.";
                     select = true;
-                    AdministrareFisiere::RescriereFisierAdminAnime(listaAnime);
+                    AdministrareFisiere::RescriereFisierAnime(listaAnime);
+                    for (list<Anime>::iterator i = listaAdmin.begin(); i != listaAdmin.end(); i++)
+                        if (nume == i->getNume())
+                            i->setNota(nota);
+                    AdministrareFisiere::RescriereFisierAdminAnime(listaAdmin);
                     break;
                 default:
-                    cout << "Optiunea nu exista";
+                    std::cout << (FORMAT1"\t\b\b\033[0;31mOptiune invalida\033[0m");
+                    Sleep(1500);
                     break;
                 }
             }
@@ -193,7 +225,7 @@ void Anime::ActualizareAnimeAdmin()
 {
     list<Anime> listaAnime = AdministrareFisiere::CitesteFisierAdminAnime();
     AfisareListaAnime(listaAnime);
-    cout << "Introduceti numele animeului pe care doriti sa o modificati: ";
+    cout << "Introduceti numele animeului pe care doriti sa il modificati: ";
     string nume;
     cin >> nume;
 
@@ -219,23 +251,28 @@ void Anime::ActualizareAnimeAdmin()
                 case '1':
                     cout << "Introduceti noul nume: ";
                     cin >> numeNou;
-                    it->setNume(numeNou);
+                    if(NumeExista(nume,listaAnime)==true)
+                        it->setNume(numeNou);
                     select = true;
+                    go();
                     break;
                 case '2':
                     cout << "Introduceti noul numar de sezoane: ";
                     cin >> sezNou;
                     it->setSezoaneAnime(sezNou);
                     select = true;
+                    go();
                     break;
                 case '3':
                     cout << "Introduceti noul numar de episoade: ";
                     cin >> epNou;
                     it->setEpisoadeAnime(epNou);
                     select = true;
+                    go();
                     break;
                 default:
                     cout << "Optiunea nu exista";
+                    go();
                     break;
                 }
             }
