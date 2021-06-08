@@ -31,6 +31,7 @@ void MenuWatcherInterfata();
 void MenuReaderInterfata();
 void MenuAdminInterfata();
 
+string FaraBara(string nume);
 //////////////////////////////////
 
 #endif

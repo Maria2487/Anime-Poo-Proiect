@@ -38,9 +38,6 @@
     <ClInclude Include="AdministrareFisiere.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="The High Ground.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Manga.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -48,6 +45,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="The High Ground.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
