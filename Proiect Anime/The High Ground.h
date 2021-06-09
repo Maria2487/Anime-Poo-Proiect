@@ -32,6 +32,7 @@ void MenuReaderInterfata();
 void MenuAdminInterfata();
 
 string FaraBara(string nume);
+bool ValidareNumar(const string& str);
 //////////////////////////////////
 
 #endif

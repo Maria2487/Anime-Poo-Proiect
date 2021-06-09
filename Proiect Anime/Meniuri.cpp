@@ -8,6 +8,12 @@ void go()
     cout << "\n\nApasa orice tasta pentru a continua...";
 }
 
+bool ValidareNumar(const string& str) {
+    for (int i = 0; i < str.length(); i++)
+        if (isdigit(str[i]) == false)
+            return false;
+    return true;
+}
 
 void Menu()
 {
@@ -36,7 +42,7 @@ void MenuWatcher()
 {
     system("cls");
     cout << 
-       (FORMAT1"|------------Meniu Utilizator-------------|\n"
+       (FORMAT1"|-------------Meniu Urmaritor-------------|\n"
         FORMAT1"|1-Afisare lista totala de animeuri       |\n"
         FORMAT1"|2-Afisare lista personala de animeuri    |\n"
         FORMAT1"|3-Adaugare in lista personala de animeuri|\n"
@@ -79,6 +85,8 @@ void MenuAdmin()
         FORMAT1"|X-Exit                               |\n"
         FORMAT1"|-------------------------------------|\n");
 }
+
+
 
 void MeniuPrincipal()
 {
@@ -138,7 +146,7 @@ void MenuWatcherInterfata()
     list<Anime> listaAnimeuri = AdministrareFisiere::CitesteFisierWatcherAnime();
     list<Anime> listaAdmin = AdministrareFisiere::CitesteFisierAdminAnime();
     Anime nou;
-    string nume;
+    string nume,ceva;
     bool valid;
     int nota;
     while (1)
@@ -206,14 +214,25 @@ void MenuWatcherInterfata()
             {
                 if (nume == it->getNume())
                 {
+                    nota = it->getNota();
                     
                     do
                     {
                         cout << "\n\nIntroduceti nota: ";
-                        cin >> nota;
-                        if (nota < 0 || nota > 10)
-                            cout << "\nNota trebuie sa fie intre 0 si 10.\n\n";
-                    } while (nota < 0 || nota > 10);
+                        cin >> ceva;
+                        if (ValidareNumar(ceva) == false)
+                        {
+                            cout << "\n\nNumarul a fost introdus incorect\n" << endl;
+                            break;
+                        }
+                        else
+                        {
+                            nota = stoi(ceva);
+                            if (nota < 0 || nota > 10)
+                                cout << "\nNota trebuie sa fie intre 0 si 10.\n\n";
+                        }
+                        
+                    } while (nota < 0 || nota > 10 || ValidareNumar(ceva) == false);
 
                     it->setNota(nota);
                     valid = true;
@@ -267,7 +286,7 @@ void MenuReaderInterfata()
     list<Manga> listaMangauri = AdministrareFisiere::CitesteFisierReaderManga();
     list<Manga> listaAdmin = AdministrareFisiere::CitesteFisierAdminManga();
     Manga nou;
-    string nume;
+    string nume, ceva;
     bool valid;
     int nota;
     while (1)
@@ -335,14 +354,25 @@ void MenuReaderInterfata()
             {
                 if (nume == it->getNume())
                 {
-                    do 
+                    nota = it->getNota();
+                    do
                     {
                         cout << "\n\nIntroduceti nota: ";
-                        cin >> nota;
-                        if (nota < 0 || nota > 10)
-                            cout << "\nNota trebuie sa fie intre 0 si 10.\n";
-                    } while (nota < 0 || nota > 10);
-                    
+                        cin >> ceva;
+                        if (ValidareNumar(ceva) == false)
+                        {
+                            cout << "\n\nNumarul a fost introdus incorect\n" << endl;
+                            break;
+                        }
+                        else
+                        {
+                            nota = stoi(ceva);
+                            if (nota < 0 || nota > 10)
+                                cout << "\nNota trebuie sa fie intre 0 si 10.\n\n";
+                        }
+
+                    } while (nota < 0 || nota > 10 || ValidareNumar(ceva) == false);
+
                     it->setNota(nota);
                     valid = true;
                 }

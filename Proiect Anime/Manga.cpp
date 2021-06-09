@@ -21,7 +21,7 @@ Manga::~Manga()
 {
     //dtor
 }
-//////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////
 bool NumeExista(string nume, list<Manga> listaAdmin)
 {
     for (list<Manga>::iterator it = listaAdmin.begin(); it != listaAdmin.end(); it++)
@@ -78,10 +78,14 @@ bool VerificaEpisoade(string nume,int input, list<Manga> listaAdmin)
     return false;
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+
 Manga Manga::AdaugaManga()
 {
-    string nume;
+    string nume, codIntrodus;
     int input1, input2;
+    input1 = -1;
+    input2 = -1;
     double input3;
     list<Manga> listaAdmin = AdministrareFisiere::CitesteFisierAdminManga();
     list<Manga> listaManga = AdministrareFisiere::CitesteFisierReaderManga();
@@ -115,14 +119,27 @@ Manga Manga::AdaugaManga()
             do
             {
                 cout << "\nIntroduceti numarul de volume: ";
-                cin >> input1;
-            } while (input1 <= 0 || VerificaSezoane(nume, input1, listaAdmin) == false);
+                cin >> codIntrodus;
+                if (ValidareNumar(codIntrodus) == false)
+                {
+                    cout << "\n\nNumarul a fost introdus incorect\n\n" << endl;
+
+                }
+                else
+                    input1 = stoi(codIntrodus);
+            } while (input1 <= 0 || VerificaSezoane(nume, input1, listaAdmin) == false || ValidareNumar(codIntrodus) == false);
 
             do
             {
                 cout << "\nIntroduceti numarul de capitole: ";
-                cin >> input2;
-            } while (input2 < 0 || VerificaEpisoade(nume, input2, listaAdmin) == false);
+                cin >> codIntrodus;
+                if (ValidareNumar(codIntrodus) == false)
+                {
+                    cout << "\n\nNumarul a fost introdus incorect\n\n" << endl;
+                }
+                else
+                    input2 = stoi(codIntrodus);
+            } while (input2 < 0 || VerificaEpisoade(nume, input2, listaAdmin) == false || ValidareNumar(codIntrodus) == false);
 
             for (list<Manga>::iterator it = listaAdmin.begin(); it != listaAdmin.end(); it++)
             {
@@ -143,8 +160,10 @@ Manga Manga::AdaugaManga()
 
 Manga Manga::AdaugaMangaAdmin()
 {
-    string nume;
+    string nume, codIntrodus;
     int input1, input2;
+    input1 = -1;
+    input2 = -1;
     double input3;
     list<Manga> listaAdmin = AdministrareFisiere::CitesteFisierAdminManga();
     do 
@@ -164,14 +183,27 @@ Manga Manga::AdaugaMangaAdmin()
     do
     {
         cout << "\nIntroduceti numarul de volume: ";
-        cin >> input1;
-    } while (input1 <= 0);
+        cin >> codIntrodus;
+        if (ValidareNumar(codIntrodus) == false)
+        {
+            cout << "\n\nNumarul a fost introdus incorect\n\n" << endl;
+
+        }
+        else
+            input1 = stoi(codIntrodus);
+    } while (input1 <= 0 || ValidareNumar(codIntrodus) == false);
 
     do
     {
         cout << "\nIntroduceti numarul de capitole: ";
-        cin >> input2;
-    } while (input2 <= 0);
+        cin >> codIntrodus;
+        if (ValidareNumar(codIntrodus) == false)
+        {
+            cout << "\n\nNumarul a fost introdus incorect\n\n" << endl;
+        }
+        else
+            input2 = stoi(codIntrodus);
+    } while (input2 < 0 || ValidareNumar(codIntrodus) == false);
 
     input3 = -1;
 
@@ -226,7 +258,16 @@ void Manga::ActualizareMangaReader()
                     {
                     case '1':
                         cout << "\n\nIntroduceti noul numar de volume: ";
-                        cin >> volNou;
+
+                        cin >> numeNou;
+                        if (ValidareNumar(numeNou) == false)
+                        {
+                            cout << "\n\nNumarul a fost introdus incorect\n" << endl;
+                            select = true;
+                            break;
+                        }
+                        volNou = stoi(numeNou);
+
                         if (VerificaSezoane(nume, volNou, listaManga) == true && volNou > 0)
                             it->setVolumeManga(volNou);
                         else
@@ -236,7 +277,16 @@ void Manga::ActualizareMangaReader()
                         break;
                     case '2':
                         cout << "\n\nIntroduceti noul numar de capitole: ";
-                        cin >> capNou;
+
+                        cin >> numeNou;
+                        if (ValidareNumar(numeNou) == false)
+                        {
+                            cout << "\n\nNumarul a fost introdus incorect\n" << endl;
+                            select = true;
+                            break;
+                        }
+                        capNou = stoi(numeNou);
+                        
                         if (VerificaEpisoade(nume, capNou, listaManga) == true && capNou >= 0)
                             it->setCapitoleManga(capNou);
                         else
@@ -263,7 +313,7 @@ void Manga::ActualizareMangaAdmin()
     list<Manga> listaManga = AdministrareFisiere::CitesteFisierAdminManga();
     list<Manga> listaReader = AdministrareFisiere::CitesteFisierReaderManga();
     AfisareListaManga(listaManga);
-    cout << "Introduceti numele: ";
+    cout << "\n\nIntroduceti numele: ";
     string nume;
     cin.seekg(0, ios::end);
     cin.clear();
@@ -295,7 +345,7 @@ void Manga::ActualizareMangaAdmin()
                 switch (toupper(_getch()))
                 {
                 case '1':
-                    cout << "\n\nIntroduceti noul nume: \n\n";
+                    cout << "\n\nIntroduceti noul nume: ";
                     cin.seekg(0, ios::end);
                     cin.clear();
                     getline(cin, numeNou);
@@ -321,7 +371,14 @@ void Manga::ActualizareMangaAdmin()
                     break;
                 case '2':
                     cout << "\n\nIntroduceti noul numar de volume: ";
-                    cin >> volNou;
+                    cin >> numeNou;
+                    if (ValidareNumar(numeNou) == false)
+                    {
+                        cout << "\n\nNumarul a fost introdus incorect\n" << endl;
+                        select = true;
+                        break;
+                    }
+                    volNou = stoi(numeNou);
                     if(volNou > 0)
                         it->setVolumeManga(volNou);
                     else
@@ -330,7 +387,14 @@ void Manga::ActualizareMangaAdmin()
                     break;
                 case '3':
                     cout << "\n\nIntroduceti noul numar de capitole: ";
-                    cin >> capNou;
+                    cin >> numeNou;
+                    if (ValidareNumar(numeNou) == false)
+                    {
+                        cout << "\n\nNumarul a fost introdus incorect\n" << endl;
+                        select = true;
+                        break;
+                    }
+                    capNou = stoi(numeNou);
                     if(capNou >= 0)
                         it->setCapitoleManga(capNou);
                     else
@@ -383,3 +447,4 @@ string Manga::ConvertToStringManga()
     string s = table.str();
     return s;
 }
+

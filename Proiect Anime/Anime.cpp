@@ -77,10 +77,14 @@ bool VerificaEpisoade(string nume, int input, list<Anime> listaAdmin)
     return false;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
 Anime Anime::AdaugaAnime()
 {
-    string nume;
+    string nume, codIntrodus;
     int input1, input2;
+    input1 = -1;
+    input2 = -1;
     double input3;
     list<Anime> listaAdmin = AdministrareFisiere::CitesteFisierAdminAnime();
     list<Anime> listaWatcher = AdministrareFisiere::CitesteFisierWatcherAnime();
@@ -114,14 +118,27 @@ Anime Anime::AdaugaAnime()
             do
             {
                 cout << "\nIntroduceti numarul de sezoane: ";
-                cin >> input1;
-            } while (input1 <= 0 || VerificaSezoane(nume, input1, listaAdmin) == false);
+                cin >> codIntrodus;
+                if (ValidareNumar(codIntrodus) == false)
+                {
+                    cout <<"\n\nNumarul a fost introdus incorect\n\n" << endl;
+                    
+                }
+                else
+                    input1 = stoi(codIntrodus);
+            } while (input1 <= 0 || VerificaSezoane(nume, input1, listaAdmin) == false || ValidareNumar(codIntrodus) == false);
 
             do
             {
                 cout << "\nIntroduceti numarul de episoade: ";
-                cin >> input2;
-            } while (input2 < 0 || VerificaEpisoade(nume, input2, listaAdmin) == false);
+                cin >> codIntrodus;
+                if (ValidareNumar(codIntrodus) == false)
+                {
+                    cout << "\n\nNumarul a fost introdus incorect\n\n" << endl;
+                }
+                else
+                    input2 = stoi(codIntrodus);
+            } while (input2 < 0 || VerificaEpisoade(nume, input2, listaAdmin) == false || ValidareNumar(codIntrodus) == false);
 
             for (list<Anime>::iterator it = listaAdmin.begin(); it != listaAdmin.end(); it++)
             {
@@ -144,8 +161,10 @@ Anime Anime::AdaugaAnime()
 
 Anime Anime::AdaugaAnimeAdmin()
 {
-    string nume;
+    string nume, codIntrodus;
     int input1, input2;
+    input1 = -1;
+    input2 = -1;
     double input3;
     list<Anime> listaAdmin = AdministrareFisiere::CitesteFisierAdminAnime();
     do
@@ -162,17 +181,30 @@ Anime Anime::AdaugaAnimeAdmin()
         for (auto& c : nume) c = toupper(c);
     } while (NumeExista(nume,listaAdmin)==false || nume.empty() == true);
     
-    do 
+    do
     {
         cout << "\nIntroduceti numarul de sezoane: ";
-        cin >> input1;
-    } while (input1 <= 0);
+        cin >> codIntrodus;
+        if (ValidareNumar(codIntrodus) == false)
+        {
+            cout << "\n\nNumarul a fost introdus incorect\n\n" << endl;
+
+        }
+        else
+            input1 = stoi(codIntrodus);
+    } while (input1 <= 0 || ValidareNumar(codIntrodus) == false);
 
     do
     {
         cout << "\nIntroduceti numarul de episoade: ";
-        cin >> input2;
-    } while (input2 <= 0);
+        cin >> codIntrodus;
+        if (ValidareNumar(codIntrodus) == false)
+        {
+            cout << "\n\nNumarul a fost introdus incorect\n\n" << endl;
+        }
+        else
+            input2 = stoi(codIntrodus);
+    } while (input2 < 0 || ValidareNumar(codIntrodus) == false);
 
     input3 = -1;
 
@@ -226,7 +258,16 @@ void Anime::ActualizareAnimeWatcher()
                     {
                     case '1':
                         cout << "\n\nIntroduceti noul numar de sezoane: ";
-                        cin >> sezNou;
+                        
+                        cin >> numeNou;
+                        if (ValidareNumar(numeNou) == false)
+                        {
+                            cout << "\n\nNumarul a fost introdus incorect\n" << endl;
+                            select = true;
+                            break;
+                        }
+                        sezNou = stoi(numeNou);
+
                         if (VerificaSezoane(nume, sezNou, listaAnime) == true && sezNou > 0)
                             it->setSezoaneAnime(sezNou);
                         else
@@ -236,7 +277,16 @@ void Anime::ActualizareAnimeWatcher()
                         break;
                     case '2':
                         cout << "\n\nIntroduceti noul numar de episoade: ";
-                        cin >> epNou;
+                        
+                        cin >> numeNou;
+                        if (ValidareNumar(numeNou) == false)
+                        {
+                            cout << "\n\nNumarul a fost introdus incorect\n" << endl;
+                            select = true;
+                            break;
+                        }
+                        epNou = stoi(numeNou);
+
                         if (VerificaEpisoade(nume, epNou, listaAnime) == true && epNou >= 0 )
                             it->setEpisoadeAnime(epNou);
                         else
@@ -264,7 +314,7 @@ void Anime::ActualizareAnimeAdmin()
     list<Anime> listaAnime = AdministrareFisiere::CitesteFisierAdminAnime();
     list<Anime> listaWatcher = AdministrareFisiere::CitesteFisierWatcherAnime();
     AfisareListaAnime(listaAnime);
-    cout << "Introduceti numele: ";
+    cout << "\n\nIntroduceti numele: ";
     string nume;
     cin.seekg(0, ios::end);
     cin.clear();
@@ -296,7 +346,7 @@ void Anime::ActualizareAnimeAdmin()
                 switch (toupper(_getch()))
                 {
                 case '1':
-                    cout << "\n\nIntroduceti noul nume: \n\n";
+                    cout << "\n\nIntroduceti noul nume: ";
                     cin.seekg(0, ios::end);
                     cin.clear();
                     getline(cin, numeNou);
@@ -322,7 +372,14 @@ void Anime::ActualizareAnimeAdmin()
                     break;
                 case '2':
                     cout << "\n\nIntroduceti noul numar de sezoane: ";
-                    cin >> sezNou;
+                    cin >> numeNou;
+                    if (ValidareNumar(numeNou) == false)
+                    {
+                        cout << "\n\nNumarul a fost introdus incorect\n" << endl;
+                        select = true;
+                        break;
+                    }
+                    sezNou = stoi(numeNou);
                     if (sezNou > 0)
                         it->setSezoaneAnime(sezNou);
                     else
@@ -331,7 +388,14 @@ void Anime::ActualizareAnimeAdmin()
                     break;
                 case '3':
                     cout << "\n\nIntroduceti noul numar de episoade: ";
-                    cin >> epNou;
+                    cin >> numeNou;
+                    if (ValidareNumar(numeNou) == false)
+                    {
+                        cout << "\n\nNumarul a fost introdus incorect\n" << endl;
+                        select = true;
+                        break;
+                    }
+                    epNou = stoi(numeNou);
                     if( epNou >= 0)
                         it->setEpisoadeAnime(epNou);
                     else

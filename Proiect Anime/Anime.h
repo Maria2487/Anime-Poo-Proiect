@@ -1,6 +1,5 @@
 #ifndef Anime_H
 #define Anime_H
-
 #pragma once
 #include "MyAnimeList.h"
 
@@ -48,3 +47,5 @@ public:
 };
 
 #endif
+
+

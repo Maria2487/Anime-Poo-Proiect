@@ -17,7 +17,6 @@ public:
 
     virtual ~Manga();
     ///////////////////////////////////////////////////////
-
     void setVolumeManga(int s)
     {
         VolumeManga = s;
@@ -36,7 +35,6 @@ public:
     {
         return CapitoleManga;
     }
-
     //////////////////////////////////////////////////////////////////
     static Manga AdaugaManga();
     static Manga AdaugaMangaAdmin();
@@ -49,3 +47,4 @@ public:
 };
 
 #endif
+
